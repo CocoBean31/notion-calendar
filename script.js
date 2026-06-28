@@ -2,15 +2,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("✅ Planner Loaded");
 
-    const days = document.querySelectorAll(".day");
+    // -----------------------
+    // Expand / Collapse Days
+    // -----------------------
 
-    console.log(`Found ${days.length} days`);
+    const days = document.querySelectorAll(".day");
 
     days.forEach(day => {
 
         day.addEventListener("click", () => {
-
-            console.log("Clicked!");
 
             if (day.classList.contains("active")) {
 
@@ -24,6 +24,37 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
         });
+
+    });
+
+    // -----------------------
+    // Google Authentication
+    // -----------------------
+
+    const CLIENT_ID = "PASTE_YOUR_CLIENT_ID_HERE";
+
+    let tokenClient;
+
+    tokenClient = google.accounts.oauth2.initTokenClient({
+
+        client_id: CLIENT_ID,
+
+        scope: "https://www.googleapis.com/auth/calendar.readonly",
+
+        callback: (response) => {
+
+            console.log("Connected!", response);
+
+            document.getElementById("connectBtn").textContent =
+                "✓ Connected";
+
+        }
+
+    });
+
+    document.getElementById("connectBtn").addEventListener("click", () => {
+
+        tokenClient.requestAccessToken();
 
     });
 
