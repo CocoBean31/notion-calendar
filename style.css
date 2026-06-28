@@ -42,8 +42,6 @@ body{
 
 }
 
-}
-
 /* ---------- CARD ---------- */
 
 .planner{
@@ -96,8 +94,6 @@ body{
 
 }
 
-}
-
 
 .today-btn{
 
@@ -147,6 +143,12 @@ body{
 
     height:260px;
 
+    padding:20px;
+
+    border-right:1px solid var(--divider);
+
+    transition:.25s ease;
+
 }
 
 .day:last-child{
@@ -187,7 +189,6 @@ body{
 
     background:var(--divider);
 
-}
 }
 
 .weekday{
