@@ -64,6 +64,44 @@ body{
 
 /* ---------- HEADER ---------- */
 
+.header-buttons{
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+}
+
+.connect-btn{
+
+    font-family:"Newsreader", serif;
+
+    background:#2F2F2F;
+
+    color:white;
+
+    border:none;
+
+    border-radius:999px;
+
+    padding:12px 22px;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.connect-btn:hover{
+
+    background:#444;
+
+}
+
 .header{
 
     display:flex;
