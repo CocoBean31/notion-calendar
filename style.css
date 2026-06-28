@@ -133,8 +133,6 @@ body{
 
      display:flex;
 
-    gap:0;
-
     width:100%;
 
 }
@@ -151,7 +149,7 @@ body{
 
     border-right:1px solid var(--divider);
 
-    transition:all .35s ease;
+    transition:flex .45s cubic-bezier(.22,.61,.36,1);
 
     overflow:hidden;
 
