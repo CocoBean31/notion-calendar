@@ -160,6 +160,9 @@ body{
     background:var(--hover);
 
 }
+
+/* ---------- DAY HEADER ---------- */
+
 .day-header{
 
     display:flex;
@@ -168,10 +171,15 @@ body{
 
     align-items:center;
 
-    margin-bottom:18px;
+    margin-bottom:22px;
+
+    padding-bottom:12px;
+
+    border-bottom:1px solid var(--divider);
 
 }
-.day h2{
+
+.weekday{
 
     font-size:11px;
 
@@ -181,28 +189,30 @@ body{
 
     color:var(--secondary);
 
-    margin-bottom:8px;
-
     font-weight:600;
 
 }
 
-.day p{
+.date{
 
-    font-size:22px;
+    font-size:26px;
 
     font-weight:600;
 
     color:var(--text);
 
+    line-height:1;
+
 }
 
-.day::after{
+/* ---------- EVENTS ---------- */
 
-    content:"";
+.events{
 
-    display:block;
+    display:flex;
 
-    border-top:1px solid var(--divider);
+    flex-direction:column;
+
+    gap:14px;
 
 }
