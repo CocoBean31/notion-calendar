@@ -78,11 +78,11 @@ body{
 
 .title h1{
 
-    font-size:22px;
+    font-size:20px;
 
     font-weight:600;
 
-    color:var(--text);
+    color:#353432;
 
 }
 
@@ -185,11 +185,15 @@ body{
 
     text-transform:uppercase;
 
-    letter-spacing:.12em;
+    letter-spacing:.16em;
 
-    color:var(--secondary);
+    color:#8A8782;
 
     font-weight:600;
+
+    margin-right:8px;
+
+    white-space:nowrap;
 
 }
 
