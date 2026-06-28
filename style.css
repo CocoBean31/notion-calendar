@@ -32,11 +32,15 @@
 
 body{
 
-    font-family:Inter,sans-serif;
+    font-family:"Newsreader", serif;
+
     background:var(--background);
+
     color:var(--text);
 
     padding:40px;
+
+}
 
 }
 
@@ -76,8 +80,8 @@ body{
 
 }
 
-.title h1{
-    
+.header h1{
+
     font-family:"Newsreader", serif;
 
     font-size:20px;
@@ -88,37 +92,35 @@ body{
 
     color:#2F2F2F;
 
-}
-
-.title p{
-
-    margin-top:4px;
-
-    color:var(--secondary);
-
-    font-size:13px;
+    margin:0;
 
 }
+
+}
+
 
 .today-btn{
 
-     background:#FCFBF8;
+    font-family:"Newsreader", serif;
+
+    background:#FCFBF8;
 
     border:1px solid #E8E5E0;
 
     border-radius:999px;
 
-    padding:10px 20px;
+    padding:12px 24px;
 
-    color:#55524D;
-
-    font-size:13px;
+    font-size:15px;
 
     font-weight:500;
+
+    color:#55524D;
 
     cursor:pointer;
 
     transition:all .2s ease;
+
 }
 
 .today-btn:hover{
@@ -184,6 +186,7 @@ body{
 }
 
 .weekday{
+    font-family:"Newsreader", serif;
 
     font-size:11px;
 
