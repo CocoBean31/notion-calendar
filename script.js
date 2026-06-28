@@ -2,6 +2,8 @@ const CLIENT_ID = "973350846269-1uhhhbjp50gh89k0egso0o3aifrndvie.apps.googleuser
 
 let tokenClient = null;
 
+let currentDate = new Date();
+
 document.addEventListener("DOMContentLoaded", () => {
 
     console.log("✅ Planner Loaded");
@@ -9,6 +11,23 @@ document.addEventListener("DOMContentLoaded", () => {
     // --------------------
     // Expand / Collapse Days
     // --------------------
+    function updateHeader() {
+
+    const options = {
+        day: "numeric",
+        month: "long"
+    };
+
+    const monday = new Date(currentDate);
+    monday.setDate(currentDate.getDate() - currentDate.getDay() + 1);
+
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+
+    document.getElementById("week-title").textContent =
+        `${monday.toLocaleDateString("en-GB", options)} – ${sunday.toLocaleDateString("en-GB", options)}`;
+
+}
 
     const days = document.querySelectorAll(".day");
 
