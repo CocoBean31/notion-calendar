@@ -2,27 +2,29 @@
 // Weekly Planner
 // ======================================
 
-// Select all day columns
-const days = document.querySelectorAll(".day");
+document.addEventListener("DOMContentLoaded", () => {
 
-// Expand / collapse days
-days.forEach(day => {
+    const days = document.querySelectorAll(".day");
 
-    day.addEventListener("click", () => {
+    days.forEach(day => {
 
-        // If already open, close it
-        if (day.classList.contains("active")) {
+        day.addEventListener("click", () => {
 
-            day.classList.remove("active");
-            return;
+            // Collapse if clicking the same day
+            if (day.classList.contains("active")) {
 
-        }
+                day.classList.remove("active");
+                return;
 
-        // Close every other day
-        days.forEach(d => d.classList.remove("active"));
+            }
 
-        // Open selected day
-        day.classList.add("active");
+            // Close all other days
+            days.forEach(d => d.classList.remove("active"));
+
+            // Open clicked day
+            day.classList.add("active");
+
+        });
 
     });
 
@@ -33,6 +35,9 @@ days.forEach(day => {
 // (Coming next)
 // ======================================
 
+// Leave these as placeholders for now.
+// We'll replace them once the click behaviour works again.
+
 const CLIENT_ID = "YOUR_OAUTH_CLIENT_ID";
 const API_KEY = "YOUR_API_KEY";
 
@@ -42,9 +47,8 @@ const DISCOVERY_DOC =
 const SCOPES =
     "https://www.googleapis.com/auth/calendar.readonly";
 
-// Initialise Google API
 function initGoogleCalendar() {
 
-    console.log("Google Calendar initialisation coming next...");
+    console.log("Google Calendar integration coming soon.");
 
 }
