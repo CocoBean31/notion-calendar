@@ -1,10 +1,14 @@
+const CLIENT_ID = "973350846269-1uhhhbjp50gh89k0egso0o3aifrndvie.apps.googleusercontent.com";
+
+let tokenClient = null;
+
 document.addEventListener("DOMContentLoaded", () => {
 
     console.log("✅ Planner Loaded");
 
-    // -----------------------
+    // --------------------
     // Expand / Collapse Days
-    // -----------------------
+    // --------------------
 
     const days = document.querySelectorAll(".day");
 
@@ -27,32 +31,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-    // -----------------------
-    // Google Authentication
-    // -----------------------
+    // --------------------
+    // Google Connect Button
+    // --------------------
 
-    const CLIENT_ID = "PASTE_YOUR_CLIENT_ID_HERE";
+    const connectBtn = document.getElementById("connectBtn");
 
-    let tokenClient;
+    connectBtn.addEventListener("click", () => {
 
-    tokenClient = google.accounts.oauth2.initTokenClient({
+        if (typeof google === "undefined") {
 
-        client_id: CLIENT_ID,
+            console.error("Google Identity Services not loaded.");
+            alert("Google library hasn't loaded yet. Refresh the page and try again.");
 
-        scope: "https://www.googleapis.com/auth/calendar.readonly",
-
-        callback: (response) => {
-
-            console.log("Connected!", response);
-
-            document.getElementById("connectBtn").textContent =
-                "✓ Connected";
+            return;
 
         }
 
-    });
+        if (!tokenClient) {
 
-    document.getElementById("connectBtn").addEventListener("click", () => {
+            tokenClient = google.accounts.oauth2.initTokenClient({
+
+                client_id: CLIENT_ID,
+
+                scope: "https://www.googleapis.com/auth/calendar.readonly",
+
+                callback: (response) => {
+
+                    console.log("Connected!", response);
+
+                    connectBtn.textContent = "✓ Connected";
+
+                }
+
+            });
+
+        }
 
         tokenClient.requestAccessToken();
 
