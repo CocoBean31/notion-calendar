@@ -167,11 +167,40 @@ body{
 
 /* ---------- WEEK ---------- */
 
-.week{
+.week-nav{
 
-     display:flex;
+    display:flex;
+    align-items:center;
+    gap:18px;
 
-    width:100%;
+}
+
+.nav-btn{
+
+    width:40px;
+    height:40px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#FCFBF8;
+
+    border:1px solid var(--border);
+
+    cursor:pointer;
+
+    font-size:20px;
+
+    transition:.25s;
+
+}
+
+.nav-btn:hover{
+
+    background:#F5F3EF;
+
+}
 
 }
 
