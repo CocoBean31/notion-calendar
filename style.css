@@ -145,13 +145,7 @@ body{
 
 .day{
 
-    min-height:380px;
-
-    padding:24px;
-
-    border-right:1px solid var(--divider);
-
-    transition:.2s;
+    height:260px;
 
 }
 
@@ -171,18 +165,29 @@ body{
 
 .day-header{
 
-    display:flex;
+    position:relative;
 
-    justify-content:space-between;
+    padding-bottom:10px;
 
-    align-items:center;
+}
 
-    margin-bottom:22px;
+.day-header::after{
 
-    padding-bottom:12px;
+    content:"";
 
-    border-bottom:1px solid var(--divider);
+    position:absolute;
 
+    left:0;
+
+    bottom:0;
+
+    width:70%;
+
+    height:1px;
+
+    background:var(--divider);
+
+}
 }
 
 .weekday{
