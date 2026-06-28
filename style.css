@@ -104,7 +104,7 @@ body{
 
 .day{
 
-    min-height:520px;
+    min-height:340px;
 
     padding:22px;
 
@@ -126,15 +126,15 @@ body{
 
 .day h2{
 
-    font-size:11px;
+    font-size:11x;
 
     text-transform:uppercase;
 
-    letter-spacing:2px;
+    letter-spacing:18em;
 
-    color:#888;
+    color:#edede6;
 
-    margin-bottom:8px;
+    margin-bottom:6px;
 
 }
 
