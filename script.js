@@ -58,22 +58,19 @@ function createDay(date, index) {
 
     day.innerHTML = `
 
-        <div class="day-header">
+        <div class="day">
 
-            <span class="weekday">
-                ${weekdays[index]}
-            </span>
+    <div class="day-header">
 
-            <span class="date">
-                ${date.getDate()}
-            </span>
+        <span class="weekday"></span>
 
-        </div>
+        <span class="date"></span>
 
-        <div class="events">
+    </div>
 
-        </div>
+    <div class="events"></div>
 
+</div>
     `;
 
     day.addEventListener("click", () => {
