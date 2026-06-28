@@ -157,7 +157,17 @@ body{
     background:var(--hover);
 
 }
+.day-header{
 
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
 .day h2{
 
     font-size:11px;
