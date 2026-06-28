@@ -98,27 +98,30 @@ body{
 
 .today-btn{
 
-    background:white;
+     background:#FCFBF8;
 
-    border:1px solid var(--border);
+    border:1px solid #E8E5E0;
 
     border-radius:999px;
 
-    padding:9px 18px;
+    padding:10px 20px;
 
-    color:#555;
+    color:#55524D;
 
-    font-size:14px;
+    font-size:13px;
+
+    font-weight:500;
 
     cursor:pointer;
 
-    transition:.2s;
-
+    transition:all .2s ease;
 }
 
 .today-btn:hover{
 
-    background:var(--hover);
+      background:#F5F3EF;
+
+    border-color:#D8D5D0;
 
 }
 
@@ -186,13 +189,11 @@ body{
 
 .day p{
 
-    font-size:34px;
+    font-size:22px;
 
     font-weight:600;
 
     color:var(--text);
-
-    margin-bottom:22px;
 
 }
 
