@@ -131,9 +131,11 @@ body{
 
 .week{
 
-    display:grid;
+     display:flex;
 
-    grid-template-columns:repeat(7,1fr);
+    gap:0;
+
+    width:100%;
 
 }
 
@@ -141,16 +143,28 @@ body{
 
 .day{
 
+    flex:1;
+
     height:260px;
 
     padding:20px;
 
     border-right:1px solid var(--divider);
 
-    transition:.25s ease;
+    transition:all .35s ease;
+
+    overflow:hidden;
+
+    cursor:pointer;
 
 }
+.day.active{
 
+    flex:3;
+
+    background:#FFFEFC;
+
+}
 .day:last-child{
 
     border-right:none;
