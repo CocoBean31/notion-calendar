@@ -38,13 +38,19 @@ function renderWeek() {
     updateHeader(monday);
 
     // Generate seven days
-    for (let i = 0; i < 7; i++) {
+    const days = document.querySelectorAll(".day");
 
-        const date = new Date(monday);
+days.forEach((dayElement, i) => {
 
-        date.setDate(monday.getDate() + i);
+    const date = new Date(monday);
 
-    }
+    date.setDate(monday.getDate() + i);
+
+    dayElement.querySelector(".weekday").textContent = weekdays[i];
+
+    dayElement.querySelector(".date").textContent = date.getDate();
+
+});
 
 }
 
@@ -95,4 +101,79 @@ document
 
     renderWeek();
 
+    // ===========================
+// Previous week
+// ===========================
+
+document
+.getElementById("prevWeek")
+.addEventListener("click", () => {
+
+    currentDate.setDate(currentDate.getDate() - 7);
+
+    renderWeek();
+
 });
+
+// ===========================
+// Next week
+// ===========================
+
+document
+.getElementById("nextWeek")
+.addEventListener("click", () => {
+
+    currentDate.setDate(currentDate.getDate() + 7);
+
+    renderWeek();
+
+});
+
+// ===========================
+// Today
+// ===========================
+
+document
+.getElementById("todayBtn")
+.addEventListener("click", () => {
+
+    currentDate = new Date();
+
+    renderWeek();
+
+});
+
+// ===========================
+// Expand / Collapse Days
+// ===========================
+
+const days = document.querySelectorAll(".day");
+
+days.forEach(day => {
+
+    day.addEventListener("click", () => {
+
+        if (day.classList.contains("active")) {
+
+            day.classList.remove("active");
+
+            return;
+
+        }
+
+        days.forEach(d => d.classList.remove("active"));
+
+        day.classList.add("active");
+
+    });
+
+});
+
+// ===========================
+// Initialise Planner
+// ===========================
+
+renderWeek();
+
+});
+  renderWeek();
