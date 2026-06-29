@@ -24,7 +24,6 @@ function renderWeek() {
 
     const week = document.getElementById("week");
 
-    week.innerHTML = "";
 
     // Find Monday
     const monday = new Date(currentDate);
@@ -45,47 +44,10 @@ function renderWeek() {
 
         date.setDate(monday.getDate() + i);
 
-        week.appendChild(createDay(date, i));
-
     }
 
 }
-function createDay(date, index) {
 
-    const day = document.createElement("div");
-
-    day.className = "day";
-
-    day.innerHTML = `
-
-        <div class="day">
-
-    <div class="day-header">
-
-        <span class="weekday"></span>
-
-        <span class="date"></span>
-
-    </div>
-
-    <div class="events"></div>
-
-</div>
-    `;
-
-    day.addEventListener("click", () => {
-
-        document
-            .querySelectorAll(".day")
-            .forEach(d => d.classList.remove("active"));
-
-        day.classList.add("active");
-
-    });
-
-    return day;
-
-}
 function updateHeader(monday) {
 
     const sunday = new Date(monday);
