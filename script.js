@@ -22,8 +22,6 @@ const weekdays = [
 
 function renderWeek() {
 
-    const week = document.getElementById("week");
-
 
     // Find Monday
     const monday = new Date(currentDate);
@@ -92,22 +90,11 @@ document
     renderWeek();
 
 });
-
-document
-.getElementById("todayBtn")
-.addEventListener("click", () => {
-
-    currentDate = new Date();
-
-    renderWeek();
-
-    // ===========================
-// Previous week
+// ===========================
+// Previous Week
 // ===========================
 
-document
-.getElementById("prevWeek")
-.addEventListener("click", () => {
+document.getElementById("prevWeek").addEventListener("click", () => {
 
     currentDate.setDate(currentDate.getDate() - 7);
 
@@ -116,12 +103,10 @@ document
 });
 
 // ===========================
-// Next week
+// Next Week
 // ===========================
 
-document
-.getElementById("nextWeek")
-.addEventListener("click", () => {
+document.getElementById("nextWeek").addEventListener("click", () => {
 
     currentDate.setDate(currentDate.getDate() + 7);
 
@@ -133,9 +118,7 @@ document
 // Today
 // ===========================
 
-document
-.getElementById("todayBtn")
-.addEventListener("click", () => {
+document.getElementById("todayBtn").addEventListener("click", () => {
 
     currentDate = new Date();
 
@@ -144,36 +127,27 @@ document
 });
 
 // ===========================
-// Expand / Collapse Days
+// Expand / Collapse
 // ===========================
 
-const days = document.querySelectorAll(".day");
-
-days.forEach(day => {
+document.querySelectorAll(".day").forEach(day => {
 
     day.addEventListener("click", () => {
 
-        if (day.classList.contains("active")) {
+        document.querySelectorAll(".day").forEach(d => {
 
-            day.classList.remove("active");
+            if (d !== day) d.classList.remove("active");
 
-            return;
+        });
 
-        }
-
-        days.forEach(d => d.classList.remove("active"));
-
-        day.classList.add("active");
+        day.classList.toggle("active");
 
     });
 
 });
 
 // ===========================
-// Initialise Planner
+// Initialise
 // ===========================
 
 renderWeek();
-
-});
-  renderWeek();
