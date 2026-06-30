@@ -236,10 +236,46 @@ body{
       background:#FFFEFC;
 
 }
-.event-count{
-    margin-top: 8px;
-    font-size: 12px;
-    color: var(--secondary);
+.event-dots{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    margin-top:10px;
+
+    height:10px;
+
+}
+
+.event-dot{
+
+    width:7px;
+
+    height:7px;
+
+    border-radius:50%;
+
+}
+
+.event-plus{
+
+    font-size:12px;
+
+    color:var(--secondary);
+
+    margin-left:2px;
+
+    font-weight:600;
+
+}
+
+.day.active .event-dots{
+
+    display:none;
+
 }
 
 .day.active .event-count{
