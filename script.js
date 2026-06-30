@@ -77,7 +77,6 @@ async function loadGoogleEvents() {
 
   const monday = getMonday(currentDate);
   const nextMonday = addDays(monday, 7);
-
   const calendars = await getCalendars();
 
   for (const calendar of calendars) {
@@ -96,6 +95,7 @@ async function loadGoogleEvents() {
     const data = await response.json();
     renderGoogleEvents(data.items || [], monday, calendar.backgroundColor);
   }
+   updateEventBadges();
 }
 
 async function getCalendars() {
@@ -128,6 +128,7 @@ function renderGoogleEvents(events, monday, color) {
     const eventEl = document.createElement("div");
     eventEl.className = "event";
     eventEl.style.borderLeftColor = color || "#2f2f2f";
+     eventEl.style.backgroundColor = hexToRgba(color || "#2f2f2f", 0.12);
 
     const timeEl = document.createElement("div");
     timeEl.className = "event-time";
@@ -142,7 +143,30 @@ function renderGoogleEvents(events, monday, color) {
     container.appendChild(eventEl);
   });
 }
+function updateEventBadges() {
+  document.querySelectorAll(".day").forEach((day, index) => {
+    const count = document.querySelectorAll(`#events-${index} .event`).length;
+    let badge = day.querySelector(".event-count");
 
+    if (!badge) {
+      badge = document.createElement("span");
+      badge.className = "event-count";
+      day.querySelector(".day-header").appendChild(badge);
+    }
+
+    badge.textContent = count;
+    badge.style.display = count > 0 ? "inline-flex" : "none";
+  });
+}
+
+function hexToRgba(hex, alpha) {
+  const cleanHex = hex.replace("#", "");
+  const r = parseInt(cleanHex.substring(0, 2), 16);
+  const g = parseInt(cleanHex.substring(2, 4), 16);
+  const b = parseInt(cleanHex.substring(4, 6), 16);
+
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 function clearEvents() {
   document.querySelectorAll(".events").forEach((container) => {
     container.innerHTML = "";
