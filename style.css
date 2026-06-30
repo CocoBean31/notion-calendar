@@ -321,12 +321,19 @@ body{
 
 /* ---------- EVENTS ---------- */
 
-.events{
+.event {
+  margin-top: 8px;
+  padding: 6px 8px;
+  border-left: 3px solid #2f2f2f;
+  background: #f7f4ee;
+  font-size: 12px;
+}
 
-    display:flex;
+.event-time {
+  opacity: 0.65;
+  margin-bottom: 2px;
+}
 
-    flex-direction:column;
-
-    gap:14px;
-
+.event-title {
+  font-weight: 600;
 }
