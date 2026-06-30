@@ -236,6 +236,9 @@ body{
       background:#FFFEFC;
 
 }
+.day.active .event-count{
+    display:none;
+}
 .day:last-child{
 
     border-right:none;
