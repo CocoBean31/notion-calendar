@@ -124,8 +124,11 @@ async function loadGoogleEvents() {
     const data = await response.json();
     renderGoogleEvents(data.items || [], monday, calendar.backgroundColor);
   }
+  updateEventBadges();
+  }
   function updateEventBadges() {
-
+  
+}
     document.querySelectorAll(".day").forEach((day, index) => {
 
         let dots = day.querySelector(".event-dots");
@@ -226,24 +229,6 @@ eventEl.style.backgroundColor = hexToRgba(color || "#2f2f2f", 0.12);
     eventEl.appendChild(timeEl);
     eventEl.appendChild(titleEl);
     container.appendChild(eventEl);
-  });
-}
-function updateEventBadges() {
-  document.querySelectorAll(".day").forEach((day, index) => {
-    const count = document.querySelectorAll(`#events-${index} .event`).length;
-    let badge = day.querySelector(".event-count");
-
-    if (!badge) {
-      badge = document.createElement("span");
-      badge.className = "event-count";
-      day.querySelector(".day-header").appendChild(badge);
-    }
-
-    badge.textContent =
-    count === 0
-        ? "Free"
-        : `${count} ${count === 1 ? "plan" : "plans"}`;
-    badge.style.display = "inline-flex";
   });
 }
 
