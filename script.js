@@ -6,6 +6,8 @@ const SCOPES = "https://www.googleapis.com/auth/calendar.events.readonly";//
 
 // Current week being viewed
 let currentDate = new Date();
+let tokenClient = null;
+let accessToken = "";
 
 // Weekday names
 const weekdays = [
@@ -136,3 +138,4 @@ document.querySelectorAll(".day").forEach(day => {
 // ===========================
 
 renderWeek();
+window.addEventListener("load", setupGoogleCalendar);
