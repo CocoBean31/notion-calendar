@@ -1,4 +1,5 @@
-// ===========================
+const CLIENT_ID = 973350846269-1uhhhbjp50gh89k0egso0o3aifrndvie.apps.googleusercontent.com;
+const SCOPES = "https://www.googleapis.com/auth/calendar.events.readonly";// ===========================
 // Weekly Planner
 // ===========================
 
