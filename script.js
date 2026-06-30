@@ -125,32 +125,28 @@ async function loadGoogleEvents() {
     renderGoogleEvents(data.items || [], monday, calendar.backgroundColor);
   }
   updateEventBadges();
-  }
-  function updateEventBadges() {
-  
 }
+
+ function updateEventBadges() {
+
     document.querySelectorAll(".day").forEach((day, index) => {
 
         let dots = day.querySelector(".event-dots");
 
-        // Create the dots container if it doesn't exist
         if (!dots) {
 
             dots = document.createElement("div");
             dots.className = "event-dots";
 
-            // Place it underneath the header
-            day.querySelector(".day-header").insertAdjacentElement("afterend", dots);
+            day.querySelector(".day-header")
+               .insertAdjacentElement("afterend", dots);
 
         }
 
-        // Clear existing dots
         dots.innerHTML = "";
 
-        // Get all events for this day
         const events = document.querySelectorAll(`#events-${index} .event`);
 
-        // Show up to 5 dots
         const visibleDots = Math.min(events.length, 5);
 
         for (let i = 0; i < visibleDots; i++) {
@@ -158,21 +154,18 @@ async function loadGoogleEvents() {
             const dot = document.createElement("span");
 
             dot.className = "event-dot";
-
-            // Use the Google Calendar colour stored on the event
-            dot.style.backgroundColor = events[i].dataset.color || "#7E80FF";
+            dot.style.backgroundColor =
+                events[i].dataset.color || "#7E80FF";
 
             dots.appendChild(dot);
 
         }
 
-        // Add a + if there are more than 5 events
         if (events.length > 5) {
 
             const plus = document.createElement("span");
 
             plus.className = "event-plus";
-
             plus.textContent = "+";
 
             dots.appendChild(plus);
@@ -182,7 +175,6 @@ async function loadGoogleEvents() {
     });
 
 }
-
 async function getCalendars() {
   const response = await fetch("https://www.googleapis.com/calendar/v3/users/me/calendarList", {
     headers: { Authorization: `Bearer ${accessToken}` },
