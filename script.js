@@ -59,15 +59,17 @@ function setupGoogleCalendar() {
     client_id: CLIENT_ID,
     scope: SCOPES,
     callback: (response) => {
-      if (response.error) {
-        console.error(response);
-        return;
-      }
+  if (response.error) {
+    alert("Google error: " + response.error);
+    console.error(response);
+    return;
+  }
 
-      accessToken = response.access_token;
-      document.getElementById("connectBtn").textContent = "✓ Connected";
-      loadGoogleEvents();
-    },
+  accessToken = response.access_token;
+  document.getElementById("connectBtn").textContent = "✓ Connected";
+  alert("Connected. Loading events now.");
+  loadGoogleEvents();
+},
   });
 
   document.getElementById("connectBtn").addEventListener("click", () => {
@@ -104,7 +106,8 @@ async function loadGoogleEvents() {
 }
 
   const data = await response.json();
-  renderGoogleEvents(data.items || [], monday);
+alert(`Google returned ${data.items ? data.items.length : 0} events for this week.`);
+renderGoogleEvents(data.items || [], monday);
 }
 
 function renderGoogleEvents(events, monday) {
@@ -163,6 +166,19 @@ function formatTime(date) {
   });
 }
 
+function setupDayExpand() {
+  document.querySelectorAll(".day").forEach((day) => {
+    day.addEventListener("click", () => {
+      document.querySelectorAll(".day").forEach((otherDay) => {
+        if (otherDay !== day) otherDay.classList.remove("active");
+      });
+
+      day.classList.toggle("active");
+    });
+  });
+}
+
 setupButtons();
+setupDayExpand();
 renderWeek();
 window.addEventListener("load", setupGoogleCalendar);
