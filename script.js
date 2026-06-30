@@ -124,40 +124,46 @@ async function loadGoogleEvents() {
     const data = await response.json();
     renderGoogleEvents(data.items || [], monday, calendar.backgroundColor);
   }
-   function updateEventBadges() {
+  function updateEventBadges() {
 
     document.querySelectorAll(".day").forEach((day, index) => {
 
         let dots = day.querySelector(".event-dots");
 
+        // Create the dots container if it doesn't exist
         if (!dots) {
 
             dots = document.createElement("div");
             dots.className = "event-dots";
 
-            day.querySelector(".day-header").appendChild(dots);
+            // Place it underneath the header
+            day.querySelector(".day-header").insertAdjacentElement("afterend", dots);
 
         }
 
+        // Clear existing dots
         dots.innerHTML = "";
 
+        // Get all events for this day
         const events = document.querySelectorAll(`#events-${index} .event`);
 
-        const visible = Math.min(events.length, 5);
+        // Show up to 5 dots
+        const visibleDots = Math.min(events.length, 5);
 
-        for (let i = 0; i < visible; i++) {
+        for (let i = 0; i < visibleDots; i++) {
 
             const dot = document.createElement("span");
 
             dot.className = "event-dot";
 
-            dot.style.background =
-                events[i].dataset.color;
+            // Use the Google Calendar colour stored on the event
+            dot.style.backgroundColor = events[i].dataset.color || "#7E80FF";
 
             dots.appendChild(dot);
 
         }
 
+        // Add a + if there are more than 5 events
         if (events.length > 5) {
 
             const plus = document.createElement("span");
