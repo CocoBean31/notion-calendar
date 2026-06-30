@@ -1,6 +1,7 @@
 const CLIENT_ID = "973350846269-1uhhhbjp50gh89k0egso0o3aifrndvie.apps.googleusercontent.com";
-const SCOPES = "https://www.googleapis.com/auth/calendar.events.readonly";// 
-===========================
+const SCOPES = "https://www.googleapis.com/auth/calendar.events.readonly";
+
+// ===========================
 // Weekly Planner
 // ===========================
 
@@ -68,15 +69,12 @@ function updateHeader(monday) {
 
         month: "long"
 
-    };
-
     document.getElementById("week-title").textContent =
 
         `${monday.toLocaleDateString("en-GB", options)} – ${sunday.toLocaleDateString("en-GB", options)}`;
 
 }
 
-});
 // ===========================
 // Previous Week
 // ===========================
@@ -138,4 +136,4 @@ document.querySelectorAll(".day").forEach(day => {
 // ===========================
 
 renderWeek();
-window.addEventListener("load", setupGoogleCalendar);
+
