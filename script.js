@@ -52,24 +52,53 @@ function setupButtons() {
 }
 
 function setupGoogleCalendar() {
+
   tokenClient = google.accounts.oauth2.initTokenClient({
+
     client_id: CLIENT_ID,
+
     scope: SCOPES,
+
     callback: (response) => {
+
       if (response.error) {
         alert("Google error: " + response.error);
         return;
       }
 
       accessToken = response.access_token;
-      document.getElementById("connectBtn").textContent = "✓ Connected";
+
+      const connectBtn = document.getElementById("connectBtn");
+
+      connectBtn.textContent = "↻ Refresh";
+      connectBtn.classList.add("connected");
+
       loadGoogleEvents();
-    },
+
+    }
+
   });
 
-  document.getElementById("connectBtn").addEventListener("click", () => {
-    tokenClient.requestAccessToken({ prompt: accessToken ? "" : "consent" });
+  const connectBtn = document.getElementById("connectBtn");
+
+  connectBtn.addEventListener("click", () => {
+
+    // Already connected? Just refresh events.
+    if (accessToken) {
+
+      clearEvents();
+      loadGoogleEvents();
+      return;
+
+    }
+
+    // First-time connection
+    tokenClient.requestAccessToken({
+      prompt: ""
+    });
+
   });
+
 }
 
 async function loadGoogleEvents() {
@@ -158,7 +187,7 @@ function updateEventBadges() {
     count === 0
         ? "Free"
         : `${count} ${count === 1 ? "plan" : "plans"}`;
-    badge.style.display = count > 0 ? "inline-flex" : "none";
+    badge.style.display = count > 0 ? "inline-flex";
   });
 }
 
