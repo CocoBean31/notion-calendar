@@ -124,7 +124,54 @@ async function loadGoogleEvents() {
     const data = await response.json();
     renderGoogleEvents(data.items || [], monday, calendar.backgroundColor);
   }
-   updateEventBadges();
+   function updateEventBadges() {
+
+    document.querySelectorAll(".day").forEach((day, index) => {
+
+        let dots = day.querySelector(".event-dots");
+
+        if (!dots) {
+
+            dots = document.createElement("div");
+            dots.className = "event-dots";
+
+            day.querySelector(".day-header").appendChild(dots);
+
+        }
+
+        dots.innerHTML = "";
+
+        const events = document.querySelectorAll(`#events-${index} .event`);
+
+        const visible = Math.min(events.length, 5);
+
+        for (let i = 0; i < visible; i++) {
+
+            const dot = document.createElement("span");
+
+            dot.className = "event-dot";
+
+            dot.style.background =
+                events[i].dataset.color;
+
+            dots.appendChild(dot);
+
+        }
+
+        if (events.length > 5) {
+
+            const plus = document.createElement("span");
+
+            plus.className = "event-plus";
+
+            plus.textContent = "+";
+
+            dots.appendChild(plus);
+
+        }
+
+    });
+
 }
 
 async function getCalendars() {
@@ -155,9 +202,12 @@ function renderGoogleEvents(events, monday, color) {
     if (!container) return;
 
     const eventEl = document.createElement("div");
-    eventEl.className = "event";
-    eventEl.style.borderLeftColor = color || "#2f2f2f";
-     eventEl.style.backgroundColor = hexToRgba(color || "#2f2f2f", 0.12);
+
+eventEl.className = "event";
+eventEl.dataset.color = color || "#7E80FF";
+
+eventEl.style.borderLeftColor = color || "#2f2f2f";
+eventEl.style.backgroundColor = hexToRgba(color || "#2f2f2f", 0.12);
 
     const timeEl = document.createElement("div");
     timeEl.className = "event-time";
