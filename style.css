@@ -236,8 +236,15 @@ body{
       background:#FFFEFC;
 
 }
+.event-count{
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--secondary);
+}
+
 .day.active .event-count{
-    display:none;
+    display: none;
+
 }
 .day:last-child{
 
