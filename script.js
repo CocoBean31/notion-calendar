@@ -1,5 +1,5 @@
 const CLIENT_ID = "973350846269-1uhhhbjp50gh89k0egso0o3aifrndvie.apps.googleusercontent.com";
-const SCOPES = "https://www.googleapis.com/auth/calendar.events.readonly";
+const SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
 
 let currentDate = new Date();
 let tokenClient = null;
@@ -9,37 +9,30 @@ const weekdays = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
 
 function renderWeek() {
   const monday = getMonday(currentDate);
-  updateHeader(monday);
-
-  document.querySelectorAll(".day").forEach((dayElement, i) => {
-    const date = new Date(monday);
-    date.setDate(monday.getDate() + i);
-
-    dayElement.querySelector(".weekday").textContent = weekdays[i];
-    dayElement.querySelector(".date").textContent = date.getDate();
-  });
-
-  if (accessToken) loadGoogleEvents();
-}
-
-function updateHeader(monday) {
-  const sunday = new Date(monday);
-  sunday.setDate(monday.getDate() + 6);
-
+  const sunday = addDays(monday, 6);
   const options = { day: "numeric", month: "long" };
 
   document.getElementById("week-title").textContent =
     `${monday.toLocaleDateString("en-GB", options)} - ${sunday.toLocaleDateString("en-GB", options)}`;
+
+  document.querySelectorAll(".day").forEach((dayElement, i) => {
+    const date = addDays(monday, i);
+    dayElement.querySelector(".weekday").textContent = weekdays[i];
+    dayElement.querySelector(".date").textContent = date.getDate();
+  });
+
+  clearEvents();
+  if (accessToken) loadGoogleEvents();
 }
 
 function setupButtons() {
   document.getElementById("prevWeek").addEventListener("click", () => {
-    currentDate.setDate(currentDate.getDate() - 7);
+    currentDate = addDays(currentDate, -7);
     renderWeek();
   });
 
   document.getElementById("nextWeek").addEventListener("click", () => {
-    currentDate.setDate(currentDate.getDate() + 7);
+    currentDate = addDays(currentDate, 7);
     renderWeek();
   });
 
@@ -47,35 +40,35 @@ function setupButtons() {
     currentDate = new Date();
     renderWeek();
   });
+
+  document.querySelectorAll(".day").forEach((day) => {
+    day.addEventListener("click", () => {
+      document.querySelectorAll(".day").forEach((otherDay) => {
+        if (otherDay !== day) otherDay.classList.remove("active");
+      });
+      day.classList.toggle("active");
+    });
+  });
 }
 
 function setupGoogleCalendar() {
-  if (!window.google || !google.accounts || !google.accounts.oauth2) {
-    console.warn("Google sign-in is not ready.");
-    return;
-  }
-
   tokenClient = google.accounts.oauth2.initTokenClient({
     client_id: CLIENT_ID,
     scope: SCOPES,
     callback: (response) => {
-  if (response.error) {
-    alert("Google error: " + response.error);
-    console.error(response);
-    return;
-  }
+      if (response.error) {
+        alert("Google error: " + response.error);
+        return;
+      }
 
-  accessToken = response.access_token;
-  document.getElementById("connectBtn").textContent = "✓ Connected";
-  alert("Connected. Loading events now.");
-  loadGoogleEvents();
-},
+      accessToken = response.access_token;
+      document.getElementById("connectBtn").textContent = "✓ Connected";
+      loadGoogleEvents();
+    },
   });
 
   document.getElementById("connectBtn").addEventListener("click", () => {
-    tokenClient.requestAccessToken({
-      prompt: accessToken ? "" : "consent",
-    });
+    tokenClient.requestAccessToken({ prompt: accessToken ? "" : "consent" });
   });
 }
 
@@ -83,39 +76,50 @@ async function loadGoogleEvents() {
   clearEvents();
 
   const monday = getMonday(currentDate);
-  const nextMonday = new Date(monday);
-  nextMonday.setDate(monday.getDate() + 7);
+  const nextMonday = addDays(monday, 7);
 
-  const url = new URL("https://www.googleapis.com/calendar/v3/calendars/primary/events");
-  url.searchParams.set("timeMin", monday.toISOString());
-  url.searchParams.set("timeMax", nextMonday.toISOString());
-  url.searchParams.set("singleEvents", "true");
-  url.searchParams.set("orderBy", "startTime");
+  const calendars = await getCalendars();
 
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+  for (const calendar of calendars) {
+    const url = new URL(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendar.id)}/events`);
+    url.searchParams.set("timeMin", monday.toISOString());
+    url.searchParams.set("timeMax", nextMonday.toISOString());
+    url.searchParams.set("singleEvents", "true");
+    url.searchParams.set("orderBy", "startTime");
+
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    if (!response.ok) continue;
+
+    const data = await response.json();
+    renderGoogleEvents(data.items || [], monday, calendar.backgroundColor);
+  }
+}
+
+async function getCalendars() {
+  const response = await fetch("https://www.googleapis.com/calendar/v3/users/me/calendarList", {
+    headers: { Authorization: `Bearer ${accessToken}` },
   });
 
   if (!response.ok) {
-  const errorText = await response.text();
-  console.error("Could not load Google Calendar events:", response.status, errorText);
-  alert(`Google Calendar error ${response.status}: ${errorText}`);
-  return;
-}
+    alert("Could not load your calendar list.");
+    return [{ id: "primary", backgroundColor: "#2f2f2f" }];
+  }
 
   const data = await response.json();
-alert(`Google returned ${data.items ? data.items.length : 0} events for this week.`);
-renderGoogleEvents(data.items || [], monday);
+  const calendars = (data.items || []).filter((calendar) => calendar.primary || calendar.selected);
+
+  return calendars.length ? calendars : [{ id: "primary", backgroundColor: "#2f2f2f" }];
 }
 
-function renderGoogleEvents(events, monday) {
+function renderGoogleEvents(events, monday, color) {
   events.forEach((event) => {
-    const start = event.start.dateTime || event.start.date;
-    const startDate = new Date(start);
-
+    const startValue = event.start.dateTime || event.start.date;
+    const startDate = event.start.date ? localDate(startValue) : new Date(startValue);
     const dayIndex = Math.floor((startOfDay(startDate) - startOfDay(monday)) / 86400000);
+
     if (dayIndex < 0 || dayIndex > 6) return;
 
     const container = document.getElementById(`events-${dayIndex}`);
@@ -123,6 +127,7 @@ function renderGoogleEvents(events, monday) {
 
     const eventEl = document.createElement("div");
     eventEl.className = "event";
+    eventEl.style.borderLeftColor = color || "#2f2f2f";
 
     const timeEl = document.createElement("div");
     timeEl.className = "event-time";
@@ -139,17 +144,15 @@ function renderGoogleEvents(events, monday) {
 }
 
 function clearEvents() {
-  document.querySelectorAll(".events").forEach((eventsContainer) => {
-    eventsContainer.innerHTML = "";
+  document.querySelectorAll(".events").forEach((container) => {
+    container.innerHTML = "";
   });
 }
 
 function getMonday(date) {
-  const monday = new Date(date);
+  const monday = startOfDay(date);
   const day = monday.getDay();
-  const diff = day === 0 ? -6 : 1 - day;
-  monday.setDate(monday.getDate() + diff);
-  monday.setHours(0, 0, 0, 0);
+  monday.setDate(monday.getDate() + (day === 0 ? -6 : 1 - day));
   return monday;
 }
 
@@ -159,6 +162,17 @@ function startOfDay(date) {
   return output;
 }
 
+function addDays(date, days) {
+  const output = new Date(date);
+  output.setDate(output.getDate() + days);
+  return output;
+}
+
+function localDate(value) {
+  const [year, month, day] = value.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+
 function formatTime(date) {
   return date.toLocaleTimeString("en-GB", {
     hour: "numeric",
@@ -166,19 +180,6 @@ function formatTime(date) {
   });
 }
 
-function setupDayExpand() {
-  document.querySelectorAll(".day").forEach((day) => {
-    day.addEventListener("click", () => {
-      document.querySelectorAll(".day").forEach((otherDay) => {
-        if (otherDay !== day) otherDay.classList.remove("active");
-      });
-
-      day.classList.toggle("active");
-    });
-  });
-}
-
 setupButtons();
-setupDayExpand();
 renderWeek();
 window.addEventListener("load", setupGoogleCalendar);
