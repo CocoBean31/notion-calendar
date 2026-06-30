@@ -97,9 +97,11 @@ async function loadGoogleEvents() {
   });
 
   if (!response.ok) {
-    console.error("Could not load Google Calendar events.");
-    return;
-  }
+  const errorText = await response.text();
+  console.error("Could not load Google Calendar events:", response.status, errorText);
+  alert(`Google Calendar error ${response.status}: ${errorText}`);
+  return;
+}
 
   const data = await response.json();
   renderGoogleEvents(data.items || [], monday);
