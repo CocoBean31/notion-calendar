@@ -187,7 +187,7 @@ function updateEventBadges() {
     count === 0
         ? "Free"
         : `${count} ${count === 1 ? "plan" : "plans"}`;
-    badge.style.display = count > 0 ? "inline-flex";
+    badge.style.display = "inline-flex";
   });
 }
 
